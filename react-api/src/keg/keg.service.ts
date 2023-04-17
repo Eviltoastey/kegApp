@@ -23,16 +23,14 @@ export class KegService {
 
   async findOne(id: string): Promise<KegType> {
     //todo: combine api data with database data and return that.
-    const keg: Keg = await this.kegRepository.findOne({
+    const keg = await this.kegRepository.findOne({
       where: {
         id,
       },
       relations: ['beer'],
     });
 
-    const minibrewData: MinibrewKeg = await this.minibrewService.getKeg(
-      keg.minibrewId,
-    );
+    const minibrewData = await this.minibrewService.getKeg(keg.minibrewId);
 
     return {
       id: keg.id,
