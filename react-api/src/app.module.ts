@@ -8,6 +8,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { BeerModule } from './beer/beer.module';
 import { Beer } from './beer/beer.entity';
 import { MiniBrewModule } from './minibrew/minibrew.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { User } from './users/users.entity';
 
 @Module({
   imports: [
@@ -21,7 +24,7 @@ import { MiniBrewModule } from './minibrew/minibrew.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [Keg, Beer],
+        entities: [Keg, Beer, User],
         synchronize: true,
       }),
       inject: [ConfigService],
@@ -33,6 +36,8 @@ import { MiniBrewModule } from './minibrew/minibrew.module';
     KegModule,
     BeerModule,
     MiniBrewModule,
+    AuthModule,
+    UsersModule,
   ],
 })
 export class AppModule {}

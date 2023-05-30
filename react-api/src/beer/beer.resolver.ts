@@ -4,6 +4,9 @@ import { createBeerInput } from './beer.input';
 import { BeerService } from './beer.service';
 import { BeerType } from './beer.type';
 
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from 'src/auth/jwt-auth.guard';
+
 @Resolver((of) => BeerType)
 export class BeerResolver {
   constructor(private beerService: BeerService) {}
@@ -13,6 +16,7 @@ export class BeerResolver {
     return this.beerService.findOne(id);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Query((returns) => [BeerType])
   beers() {
     return this.beerService.findAll();
