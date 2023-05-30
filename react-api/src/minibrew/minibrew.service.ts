@@ -4,11 +4,15 @@ import { AxiosError } from 'axios';
 import { catchError, firstValueFrom } from 'rxjs';
 import { MinibrewBeer, MinibrewBeerDetail } from './interfaces/MinibrewBeer';
 import { MinibrewKeg } from './interfaces/minibrewKeg';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class MinibrewService implements OnModuleInit {
   bearer: string;
-  constructor(private readonly httpService: HttpService) {
+  constructor(
+    private readonly httpService: HttpService,
+    private configService: ConfigService,
+  ) {
     this.bearer = 'Bearer eb7e1835174641d48420c357cb706ae4';
   }
 
@@ -32,7 +36,10 @@ export class MinibrewService implements OnModuleInit {
       Client: 'Breweryportal',
     };
 
-    const body = { email: 'marcokoopman1337@gmail.com', password: 'B0td75il!' };
+    const body = {
+      email: this.configService.get('DB_USERNAME'),
+      password: this.configService.get('DB_USERNAME'),
+    };
 
     const { data } = await firstValueFrom(
       this.httpService
